@@ -23,8 +23,9 @@ emails = ['moizrizvi@gmail.com', 'vparam15@gmail.com', 'raunaqsrivastava@gmail.c
 def send_email(body) :
     responses = []
     for email in emails :
-        message = sendgrid.Mail(to='moizrizvi@gmail.com', subject='Code Orange Update', text=body, from_email='info@codeorange.io')
+        message = sendgrid.Mail(to=email, subject='Code Orange Update', text=body, from_email='info@codeorange.io')
         responses += sg.send(message)[0]
+    
     if all(response == "200" for response in responses) :
         return "Successfully sent messages."
     else :
