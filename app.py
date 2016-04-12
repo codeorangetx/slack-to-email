@@ -16,6 +16,7 @@ slack = Slacker(SLACK_API_TOKEN)
 # Get list of users in slack org
 user_list = slack.users.list().body['members']
 emails = filter(None, [u['profile']['email'] for u in user_list])
+is_admin = {u['id'] : u['is_admin'] for u in user_list}
 
 sg = sendgrid.SendGridClient(SENDGRID_API_KEY)
 
@@ -25,8 +26,7 @@ def email_command(**kwargs):
 
     # check if user is admin
     user_id = kwargs.get('user_id')
-    user = next((u for u in user_list if u['id'] == user_id), None)
-    if not user['is_admin'] :
+    if not is_admin[user_id] :
         return slash.response("Sorry, you must be an admin to user this command.")
 
     msg = send_email(text)
