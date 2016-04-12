@@ -7,9 +7,7 @@ EMAIL_SLASH_TOKEN = os.environ.get('EMAIL_SLASH_TOKEN')
 TEAM_ID = os.environ.get('TEAM_ID')
 
 app = Flask(__name__)
-app.config['TEAM_ID'] = TEAM_ID
 slack = Slack(app)
-
 
 sg = sendgrid.SendGridClient(SENDGRID_API_KEY)
 

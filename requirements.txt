@@ -1,2 +1,11 @@
-flask-slack
-sendgrid
+Flask==0.10.1
+Flask-Slack==0.1.5
+itsdangerous==0.24
+Jinja2==2.8
+MarkupSafe==0.23
+python-http-client==1.2.3
+sendgrid==2.2.1
+six==1.10.0
+smtpapi==0.3.1
+Werkzeug==0.11.5
+wheel==0.26.0
