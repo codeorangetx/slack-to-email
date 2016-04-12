@@ -1,6 +1,7 @@
 import sendgrid, os
 from flask_slack import Slack
 from flask import Flask
+import time
 
 SENDGRID_API_KEY = os.environ.get('SENDGRID_API_KEY')
 EMAIL_SLASH_TOKEN = os.environ.get('EMAIL_SLASH_TOKEN')
@@ -18,13 +19,14 @@ def email_command(**kwargs):
     return slack.response(msg)
 
 
-emails = ['moizrizvi@gmail.com', 'vparam15@gmail.com', 'raunaqsrivastava@gmail.com']
+emails = ['moizrizvi@gmail.com', 'vparam15@gmail.com', 'raunaqsrivastava@gmail.com', 'codeorangetx@gmail.com']
 
 def send_email(body) :
     responses = []
     for email in emails :
         message = sendgrid.Mail(to=email, subject='Code Orange Update', text=body, from_email='info@codeorange.io')
         responses += sg.send(message)[0]
+        time.sleep(5)
     
     if all(response == "200" for response in responses) :
         return "Successfully sent messages."
