@@ -11,7 +11,7 @@ slack = Slack(app)
 
 sg = sendgrid.SendGridClient(SENDGRID_API_KEY)
 
-@slack.command(command='email', token=os.environ.get('EMAIL_SLASH_TOKEN'), team_id=os.environ.get('TEAM_ID'), methods=['POST'])
+@slack.command(command='email', token=EMAIL_SLASH_TOKEN, team_id=TEAM_ID, methods=['POST'])
 def email_command(**kwargs):
     text = kwargs.get('text')
     status, msg = send_email(text)
