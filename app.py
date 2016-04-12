@@ -19,16 +19,16 @@ def email_command(**kwargs):
     return slack.response(msg)
 
 
-emails = ['moizrizvi@gmail.com', 'vparam15@gmail.com', 'raunaqsrivastava@gmail.com', 'codeorangetx@gmail.com']
+emails = ['moizrizvi@gmail.com', 'raunaqsrivastava@gmail.com', 'codeorangetx@gmail.com']
 
 def send_email(body) :
     responses = []
     for email in emails :
         message = sendgrid.Mail(to=email, subject='Code Orange Update', text=body, from_email='info@codeorange.io')
-        responses += sg.send(message)[0]
-        time.sleep(5)
+        status, msg = sg.send(message)
+        responses.append(status)
     
-    if all(response == "200" for response in responses) :
+    if all(response == 200 for response in responses) :
         return "Successfully sent messages."
     else :
         return "Something fucked up... sorry :-("
@@ -37,4 +37,4 @@ def send_email(body) :
 app.add_url_rule('/send', view_func=slack.dispatch)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()
