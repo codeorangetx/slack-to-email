@@ -14,14 +14,21 @@ slash = Slack(app)
 slack = Slacker(SLACK_API_TOKEN)
 
 # Get list of users in slack org
-user_list = slack.users.list()
-emails = filter(None, [u['profile']['email'] for u in user_list.body['members']])
+user_list = slack.users.list().body['members']
+emails = filter(None, [u['profile']['email'] for u in user_list])
 
 sg = sendgrid.SendGridClient(SENDGRID_API_KEY)
 
 @slash.command(command='email', token=EMAIL_SLASH_TOKEN, team_id=TEAM_ID, methods=['POST'])
 def email_command(**kwargs):
     text = kwargs.get('text')
+
+    # check if user is admin
+    user_id = kwargs.get('user_id')
+    user = next((u for u in user_list if u['id'] == user_id), None)
+    if not user['is_admin'] :
+        return slash.response("Sorry, you must be an admin to user this command.")
+
     msg = send_email(text)
     return slash.response(msg)
 
