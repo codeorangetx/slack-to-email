@@ -31,7 +31,7 @@ def email_command(**kwargs):
     else:
         beg, end = -2, -1
 
-    subject =   text[beg+1:end]
+    subject =   'Code Orange Update' if text[beg+1:end] == '' else text[beg+1:end]
     body =      text[end+1:]
 
     # check if user is admin
