@@ -16,7 +16,7 @@ slack = Slacker(SLACK_API_TOKEN)
 # Get list of users in slack org
 user_list = slack.users.list().body['members']
 emails = filter(None, [u['profile']['email'] for u in user_list])
-emails = [e[:-10]+"code-orange@gmail.com" if e[-10:] == "@gmail.com" else e for e in emails]
+emails = [e[:-10]+"code-orange@gmail.com" if e[-10:] is "@gmail.com" else e for e in emails]
 admin = {u['id'] : u['is_admin'] for u in user_list if u['is_admin']}
 
 sg = sendgrid.SendGridClient(SENDGRID_API_KEY)
