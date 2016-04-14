@@ -24,18 +24,28 @@ sg = sendgrid.SendGridClient(SENDGRID_API_KEY)
 def email_command(**kwargs):
     text = kwargs.get('text')
 
+    # parses text for subject if given
+    if '{' in text and '}' in text:
+        beg = text.index('{')
+        end = text.index('}')
+    else:
+        beg, end = -2, -1
+
+    subject =   text[beg+1:end]
+    body =      text[end+1:]
+
     # check if user is admin
     user_id = kwargs.get('user_id')
     if user_id not in admin :
         return slash.response("Sorry, you must be an admin to user this command.")
 
-    msg = send_email(text)
+    msg = send_email(subject, body)
     return slash.response(msg)
 
-def send_email(body) :
+def send_email(_subject, _body) :
     responses = []
     for email in emails :
-        message = sendgrid.Mail(to=email, subject='Code Orange Update', text=body, from_email='info@codeorange.io')
+        message = sendgrid.Mail(to=email, subject=_subject, text=_body, from_email='info@codeorange.io')
         status, msg = sg.send(message)
         responses.append(status)
 
